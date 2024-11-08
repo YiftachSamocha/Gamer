@@ -10,7 +10,7 @@ export function SudokuTable() {
 
     },[])
 
-    return <section>
+    return <section className="sudoku-table">
         <table>
             {table.map(row => {
                 return <tr>

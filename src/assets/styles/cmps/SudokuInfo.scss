@@ -1,0 +1,27 @@
+.sudoku-info {
+    display: flex;
+    justify-content: space-between;
+align-items: center;
+    p {
+        color: $light-gray;
+        font-weight: 600;
+        margin: 0;
+        font-size: 1.5em;
+        margin-inline: 0.4em;
+
+        span{
+            color: $dark-gray;
+        }
+    }
+    button{
+        background-color: #EAEEF4;
+        border-radius: 50px;
+        border: 0;
+        padding: 0.6em 0.7em;
+        cursor: pointer;
+    }
+    button:hover{
+        background-color: #DCE3ED;
+    }
+
+}

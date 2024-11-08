@@ -9,7 +9,7 @@
 @import "basics/layout";
 @import "basics/base";
 @import "basics/links";
-@import "basics/forms";
+@import 'basics/variables';
 
 
 // pages
@@ -19,4 +19,5 @@
 @import "cmps/SudokuInfo.scss";
 @import "cmps/SudokuNums.scss";
 @import "cmps/SudokuTable.scss";
+@import "cmps/SudokuHeader.scss";
 

@@ -1,0 +1,43 @@
+.sudoku-index {
+
+    >div {
+        display: flex;
+        justify-content: center;
+
+        h1 {
+            margin-top: 0.5em;
+            font-size: 2em;
+        }
+    }
+
+    main {
+        display: flex;
+        justify-content: space-between;
+        margin: 1em 6em;
+        align-items: center;
+
+        >div {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+
+            .new-game-btn {
+                width: 100%;
+                border: 0;
+                background-color: $main-blue;
+                color: white;
+                padding-block: 0.5em;
+                font-size: 1.3em;
+                border-radius: 10px;
+                margin-top: 0.3em;
+                font-weight: 700;
+                cursor: pointer;
+            }
+            .new-game-btn:hover{
+                background-color: #7091D5;
+            }
+        }
+    }
+}

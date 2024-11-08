@@ -1,0 +1,73 @@
+.sudoku-table {
+    table {
+        border-collapse: collapse;
+
+        tr {
+            td {
+                width: 45px;
+                height: 40px;
+                font-size: 1.5em;
+                text-align: center;
+
+                >* {
+                    cursor: default;
+                }
+
+
+                input {
+                    border: 0;
+                    outline: 0;
+                    width: 35px;
+                    height: 35px;
+                    font-size: 1em;
+                    text-align: center;
+                    color: $main-blue;
+                    caret-color: transparent;
+
+                }
+
+                .wrong {
+                    color: #E55C6C;
+                }
+
+                .mark {
+                    background-color: #E2EBF3;
+                }
+
+                .chosen {
+                    background-color: #BBDEFB;
+                }
+            }
+        }
+    }
+
+    td {
+        border: 1px solid #BFC6D4;
+    }
+
+    tr:nth-child(3n) td {
+        border-bottom: 2px solid #344861;
+    }
+
+    tr:nth-child(1) td {
+        border-top: 2px solid #344861;
+    }
+
+    tr:nth-last-child(1) td {
+        border-bottom: 2px solid #344861;
+    }
+
+    td:nth-child(3n) {
+        border-right: 2px solid #344861;
+    }
+
+    td:nth-child(1) {
+        border-left: 2px solid #344861;
+    }
+
+    td:nth-last-child(1) {
+        border-right: 2px solid #344861;
+    }
+}
+
+// #344861
