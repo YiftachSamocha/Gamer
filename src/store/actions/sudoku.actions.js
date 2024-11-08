@@ -1,10 +1,10 @@
 import { store } from '../store'
 import { sudokuService } from '../../services/Sudoku/sudoku.service'
-import { SET_CELL, SET_CELLS, UPDATE_CELL } from '../reducers/sudoku.reducer'
+import { CHANGE_DIFFICULTY, SET_CELL, SET_CELLS, UPDATE_CELL } from '../reducers/sudoku.reducer'
 
-export async function loadCells(level) {
+export async function loadCells() {
     try {
-        const cells = await sudokuService.query(level)
+        const cells = await sudokuService.query()
         store.dispatch(getCmdSetCells(cells))
     } catch (err) {
         console.log('Cannot load cells', err)
@@ -12,16 +12,27 @@ export async function loadCells(level) {
     }
 }
 
-export async function loadCell(currCell) {
+export async function setCurrCell(loc) {
     try {
-        store.dispatch(getCmdSetCell(currCell))
+        store.dispatch(getCmdSetCell(loc))
     } catch (err) {
-        console.log('Cannot load cell', err)
+        console.log('Cannot set cell', err)
         throw err
     }
 }
 
-export async function updateCell(updatedCell) {
+export async function changeDifficulty(diff) {
+    try {
+        const newTable = await sudokuService.changeDiff(diff)
+        store.dispatch(getCmdChangeDiff(newTable))
+    } catch (err) {
+        console.log('Cannot change difficulty', err)
+        throw err
+    }
+
+}
+
+export async function updateCell(updatedCell, loc) {
     try {
         const newTable = await sudokuService.update(updatedCell, loc)
         store.dispatch(getCmdUpdateCell(newTable, updatedCell))
@@ -52,6 +63,13 @@ function getCmdUpdateCell(cells, currCell) {
         type: UPDATE_CELL,
         cells,
         currCell
+    }
+}
+
+function getCmdChangeDiff(cells) {
+    return {
+        type: CHANGE_DIFFICULTY,
+        cells,
     }
 }
 

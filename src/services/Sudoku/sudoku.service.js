@@ -8,23 +8,27 @@ const LEVEL_EXPERT = 56
 
 
 
-export const sudokuService = { query, update }
+export const sudokuService = { query, update, changeDiff }
 
-function query(level) {
+function query() {
     const table = loadFromStorage(STORAGE_KEY)
     if (!table || table.length === 0) {
-        const newTable = createSudoku(level)
+        const newTable = createSudoku('easy')
         return newTable
     }
     return table
-
-
 }
 
-function update(cell, loc){
-    const table= loadFromStorage(STORAGE_KEY)
-    table[loc.row][loc.col]= cell
+function update(cell, loc) {
+    const table = loadFromStorage(STORAGE_KEY)
+    table[loc.row][loc.col] = cell
     saveToStorage(STORAGE_KEY, table)
+    return table
+}
+
+function changeDiff(diff) {
+    const newTable = createSudoku(diff)
+    return newTable
 }
 
 function createSudoku(level) {
