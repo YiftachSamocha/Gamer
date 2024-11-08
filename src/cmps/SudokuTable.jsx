@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux"
 import { useEffect, useState } from "react"
-import { loadCells, setCurrCell, updateCell } from "../store/actions/Sudoku.actions"
+import { loadCells, setCurrCell, updateCell } from "../store/actions/sudoku.actions"
+
 
 
 export function SudokuTable() {
@@ -11,8 +12,8 @@ export function SudokuTable() {
         loadCells()
     }, [])
 
-    function chooseCell(loc) {
-        setCurrCell(loc)
+    async function chooseCell(loc) {
+        await setCurrCell(loc)
         setCurr(loc)
     }
 
@@ -34,6 +35,7 @@ export function SudokuTable() {
     }
 
     function getClass(loc) {
+        if (curr.row === null || curr.col === null) return ''
         if (curr.row === loc.row && curr.col === loc.col) return 'chosen'
         if (curr.row === loc.row) return 'mark'
         if (curr.col === loc.col) return 'mark'
@@ -53,7 +55,7 @@ export function SudokuTable() {
                     return <tr >
                         {rowSec.map((cell, col) => {
                             return <td onClick={() => chooseCell({ row, col })}
-                                className={ getClass({ row, col })}>
+                                className={getClass({ row, col })}>
                                 {cell.isGiven ?
                                     <span className="given">{cell.num}</span> :
                                     <input name={row + '-' + col}

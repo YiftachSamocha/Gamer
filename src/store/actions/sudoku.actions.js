@@ -35,7 +35,7 @@ export async function changeDifficulty(diff) {
 export async function updateCell(updatedCell, loc) {
     try {
         const newTable = await sudokuService.update(updatedCell, loc)
-        store.dispatch(getCmdUpdateCell(newTable, updatedCell))
+        store.dispatch(getCmdUpdateCell(newTable, loc))
     } catch (err) {
         console.log('Cannot save cell', err)
         throw err
