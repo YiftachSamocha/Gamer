@@ -1,10 +1,12 @@
 import { legacy_createStore as createStore, combineReducers } from 'redux'
 
 import { carReducer } from './reducers/car.reducer'
+import { sudokuReducer } from './reducers/sudoku.reducer'
 
 
 const rootReducer = combineReducers({
     carModule: carReducer,
+    sudokuModule: sudokuReducer,
     
 })
 

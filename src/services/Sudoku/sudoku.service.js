@@ -1,96 +1,76 @@
-const allNums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-var table = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-]
-export function createSudoku() {
-    for (var i = 0; i < 9; i++) {
-        for (var j = 0; j < 9; j++) {
-            const loc = { row: i, col: j }
-            table[i][j] = getNum(table, loc)
-        }
+import { loadFromStorage, saveToStorage } from "../util.service.js";
+import { createSolvedSudoku } from "./sudoku.creation.js";
+const STORAGE_KEY = 'sudoku'
+const LEVEL_EASY = 42
+const LEVEL_MEDIUM = 45
+const LEVEL_HARD = 51
+const LEVEL_EXPERT = 56
+
+
+
+export const sudokuService = { query, update }
+
+function query(level) {
+    const table = loadFromStorage(STORAGE_KEY)
+    if (!table || table.length === 0) {
+        const newTable = createSudoku(level)
+        return newTable
     }
     return table
+
+
 }
 
-function getNum(table, loc) {
-    var isPossible = false
-    const nums = [...allNums]
-    var num = 0
-    while (!isPossible) {
-        if (nums.length === 0) return -1
-        const randomIndex = Math.floor(Math.random() * nums.length)
-        num = nums.splice(randomIndex, 1)[0]
-        const box = isInBox(table, loc, num)
-        if (!box) {
-            const row = isInRow(table, loc.row, num)
-            if (!row) {
-                const col = isInCol(table, loc.col, num)
-                if (!col) {
-                    isPossible = true
-                }
-            }
+function update(cell, loc){
+    const table= loadFromStorage(STORAGE_KEY)
+    table[loc.row][loc.col]= cell
+    saveToStorage(STORAGE_KEY, table)
+}
+
+function createSudoku(level) {
+    const table = createSolvedSudoku()
+    const totalEmptyCells = Number(getEmptyTotal(level))
+    const newTable = table.map(row => {
+        return row.map(num => {
+            return { num, isGiven: true }
+        })
+    })
+    let emptyCellsCount = 0
+    while (emptyCellsCount < totalEmptyCells) {
+        const randomRow = Math.floor(Math.random() * 9)
+        const randomCol = Math.floor(Math.random() * 9)
+
+
+        if (newTable[randomRow][randomCol].isGiven) {
+            newTable[randomRow][randomCol].isGiven = false
+            newTable[randomRow][randomCol].input = ''
+            newTable[randomRow][randomCol].notes = []
+
+            emptyCellsCount++;
         }
     }
-    return num
-
+    saveToStorage(STORAGE_KEY, newTable)
+    return newTable
 }
 
-function isInRow(table, row, num) {
-    for (var i = 0; i < 9; i++) {
-        if (table[row][i] === num) return true
-    }
-    return false
-}
-
-function isInCol(table, col, num) {
-    for (var i = 0; i < 9; i++) {
-        if (table[i][col] === num) return true
-    }
-    return false
-}
-
-function isInBox(table, loc, num) {
-    const start = {
-        row: getStartPoint(loc.row),
-        col: getStartPoint(loc.col)
-    }
-
-    for (var i = start.row; i < 3; i++) {
-        for (var j = start.col; j < 3; j++) {
-            if (table[i][j] === num) return true
-        }
-    }
-    return false
-}
-
-function getStartPoint(idx) {
-    var start
-    switch (idx) {
-        case 0:
-        case 1:
-        case 2:
-            start = 0
+function getEmptyTotal(level) {
+    var total
+    switch (level) {
+        case 'easy':
+            total = LEVEL_EASY
             break
-        case 3:
-        case 4:
-        case 5:
-            start = 3
+        case 'medium':
+            total = LEVEL_MEDIUM
             break
-        case 6:
-        case 7:
-        case 8:
-            start = 6
+        case 'hard':
+            total = LEVEL_HARD
+            break
+        case 'expert':
+            total = LEVEL_EXPERT
             break
 
     }
-    return start
+    return total
 }
+
 
