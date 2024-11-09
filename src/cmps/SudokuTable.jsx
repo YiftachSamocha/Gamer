@@ -34,16 +34,32 @@ export function SudokuTable() {
         await updateCell(newCell, { row, col })
     }
 
-    function getClass(loc) {
+    function getClass(checked) {
         if (curr.row === null || curr.col === null) return ''
-        if (curr.row === loc.row && curr.col === loc.col) return 'chosen'
-        if (curr.row === loc.row) return 'mark'
-        if (curr.col === loc.col) return 'mark'
+        if (curr.row === checked.row && curr.col === checked.col) return 'chosen'
+        const checkedCell = { ...table[checked.row][checked.col] }
+        const currCell = { ...table[curr.row][curr.col] }
+        if (currCell.isGiven || currCell.input === currCell.num) {
+            if (checkedCell.num === currCell.num) {
+                if (checkedCell.isGiven || checkedCell.input === checkedCell.num) return 'same-num'
+            }
+        }
+        // if (currCell.isGiven || currCell.input === currCell.isGiven) {
+        //     if (checkedCell.isGiven || checkedCell.input === checkedCell.isGiven){
+        //         if()
+        //     }
+        // }
+        // if (checkedCell.isGiven && checkedCell.num === currCell.num) return 'same-num'
+        // if (!checkedCell.isGiven && checkedCell.input === currCell.num) return 'same-num'
+        if (curr.row === checked.row) return 'mark'
+        if (curr.col === checked.col) return 'mark'
+
+
         const startBox = {
             row: Math.floor(curr.row / 3) * 3,
             col: Math.floor(curr.col / 3) * 3
         }
-        if (loc.row >= startBox.row && loc.row < startBox.row + 3 && loc.col >= startBox.col && loc.col < startBox.col + 3) return 'mark'
+        if (checked.row >= startBox.row && checked.row < startBox.row + 3 && checked.col >= startBox.col && checked.col < startBox.col + 3) return 'mark'
         return ''
 
     }
