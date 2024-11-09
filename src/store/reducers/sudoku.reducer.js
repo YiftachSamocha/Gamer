@@ -6,6 +6,7 @@ export const CHANGE_NOTE_MODE = 'CHANGE_NOTE_MODE'
 export const SET_HINT = 'SET_HINT'
 export const SET_DIFFICULTY = 'SET_DIFFICULTY'
 export const SET_MISTAKES_AMOUNT = 'SET_MISTAKES_AMOUNT'
+export const SET_IS_VICTORY = 'SET_IS_VICTORY'
 
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
     hint: { row: null, col: null },
     difficulty: 'easy',
     mistakesAmount: 0,
+    isVictory: true,
 }
 
 export function sudokuReducer(state = initialState, action) {
@@ -51,6 +53,10 @@ export function sudokuReducer(state = initialState, action) {
 
         case SET_MISTAKES_AMOUNT:
             newState = { ...state, mistakesAmount: action.mistakesAmount }
+            break
+
+        case SET_IS_VICTORY:
+            newState = { ...state, isVictory: action.isVictory }
             break
 
         default:

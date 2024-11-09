@@ -8,7 +8,7 @@ const LEVEL_EXPERT = 56
 
 
 
-export const sudokuService = { query, update, createNewGame, restart, clearNotes }
+export const sudokuService = { query, update, createNewGame, restart, clearNotes, checkVictory }
 
 function query() {
     const table = loadFromStorage(STORAGE_KEY)
@@ -50,13 +50,13 @@ function clearNotes(tableToUpdate, loc, num) {
     for (var i = 0; i < 9; i++) {
         if (loc.col !== i && !table[loc.row][i].isGiven && table[loc.row][i].notes.includes(num)) {
             const newNotes = table[loc.row][i].notes.filter(note => note !== num)
-            table[loc.row][loc.col].notes = newNotes
+            table[loc.row][i].notes = newNotes
         }
     }
     for (var i = 0; i < 9; i++) {
         if (loc.row !== i && !table[i][loc.col].isGiven && table[i][loc.col].notes.includes(num)) {
             const newNotes = table[i][loc.col].notes.filter(note => note !== num)
-            table[loc.row][loc.col].notes = newNotes
+            table[i][loc.col].notes = newNotes
         }
     }
     const startBox = { row: Math.floor(loc.row / 3) * 3, col: Math.floor(loc.col / 3) * 3 }
@@ -70,6 +70,17 @@ function clearNotes(tableToUpdate, loc, num) {
     }
     saveToStorage(STORAGE_KEY, table)
     return table
+}
+
+function checkVictory(table) {
+    for (var i = 0; i < 9; i++) {
+        for (var j = 0; j < 9; j++) {
+            if (!table[i][j].isGiven) {
+                if (table[i][j].input !== table[i][j].num) return false
+            }
+        }
+    }
+    return true
 }
 
 

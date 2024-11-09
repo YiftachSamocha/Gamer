@@ -29,6 +29,7 @@ export function SudokuNums() {
         if (currCell.input !== currCell.num) {
             dispatch({ type: SET_MISTAKES_AMOUNT, mistakesAmount: mistakesAmount + 1 })
         } else {
+            table[loc.row][loc.col].input = num
             await onClearNotes(table, loc, num)
         }
     }

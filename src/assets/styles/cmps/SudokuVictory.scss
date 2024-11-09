@@ -1,0 +1,81 @@
+.sudoku-victory {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: #4269BD;
+    padding: 5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h1 {
+        font-size: 7em;
+        color: white;
+    }
+
+    >div {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        height: 100%;
+
+        .content {
+            background-color: #7393D5;
+            padding-inline: 1.5em;
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            width: 600px;
+
+            .item {
+                display: flex;
+                align-items: center;
+                font-size: 2em;
+                color: white;
+
+
+                p {
+                    margin: 0;
+                    text-transform: capitalize;
+                    cursor: default;
+                }
+
+                img {
+                    margin-right: 1em;
+                    width: 1em;
+                    height: 1em;
+                }
+
+                div {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+                    border-bottom: 0.1px solid white;
+                    padding-block: 0.5em;
+                }
+            }
+            .item:last-of-type div{
+                border: 0;
+            }
+        }
+
+        button {
+            border: 0;
+            background-color: white;
+            color: $main-blue;
+            font-size: 2em;
+            border-radius: 10px;
+            padding: 0.7em;
+            width: 600px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            color: #7393D5;
+        }
+    }
+}

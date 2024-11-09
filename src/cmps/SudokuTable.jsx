@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { loadCells, onClearNotes, setCurrCell, updateCell } from "../store/actions/sudoku.actions"
-import { SET_MISTAKES_AMOUNT } from "../store/reducers/sudoku.reducer"
+import { SET_IS_VICTORY, SET_MISTAKES_AMOUNT } from "../store/reducers/sudoku.reducer"
+import { sudokuService } from "../services/Sudoku/sudoku.service"
 
 export function SudokuTable() {
     const table = useSelector(state => state.sudokuModule.cells)
@@ -37,6 +38,10 @@ export function SudokuTable() {
                 await onClearNotes(table, loc, enteredNum)
             }
 
+        }
+        const isVictory = sudokuService.checkVictory(table)
+        if (isVictory) {
+            dispatch({ type: SET_IS_VICTORY, isVictory })
         }
     }
 
