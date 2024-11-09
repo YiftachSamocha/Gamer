@@ -8,6 +8,7 @@
         justify-content: space-between;
         flex-direction: column;
         align-items: center;
+        position: relative;
 
 
         p {
@@ -21,7 +22,7 @@
             cursor: pointer;
             background-color: #EAEEF4;
             border-radius: 50px;
-            border: 0;
+            border: 1px solid white;
             padding: 1.5em;
 
             i {
@@ -33,5 +34,34 @@
         button:hover {
             background-color: #DCE3ED;
         }
+        button:has(.hints-counter), button:has(.nodo-mode){
+            position: relative;
+        }
+        .hints-counter, .note-mode{
+            position: absolute;
+            right: -10px;
+            top: -10px;
+            padding: 0.5em;
+            font-size: 0.7em;
+        }
+        .hints-counter, .note-mode.on{
+            background-color: $main-blue;
+            color: white;
+        }
+        .hints-counter:hover, .note-mode.on:hover{
+            background-color: $main-blue;
+            color: white;
+        }
+        .note-mode.off{
+            background-color: #ADB6C2;
+            color: white;
+        }
+        .hints-counter{
+            padding-inline: 0.8em;
+        }
+        
+    }
+    div:has(.note-mode.on) button:first-of-type{
+        border: 1px solid $main-blue;
     }
 }
