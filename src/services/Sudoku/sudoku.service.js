@@ -8,7 +8,7 @@ const LEVEL_EXPERT = 56
 
 
 
-export const sudokuService = { query, update, changeDiff }
+export const sudokuService = { query, update, createNewGame }
 
 function query() {
     const table = loadFromStorage(STORAGE_KEY)
@@ -26,7 +26,7 @@ function update(cell, loc) {
     return table
 }
 
-function changeDiff(diff) {
+function createNewGame(diff) {
     const newTable = createSudoku(diff)
     return newTable
 }

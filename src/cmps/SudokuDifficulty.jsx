@@ -1,11 +1,11 @@
-import { changeDifficulty } from "../store/actions/Sudoku.actions"
 import { useState } from "react"
+import { setNewGame } from "../store/actions/sudoku.actions"
 
 export function SudokuDifficulty() {
     const [difficulty, setDifficulty] = useState('easy')
 
     async function onSetDifficulty(diff) {
-        await changeDifficulty(diff)
+        await setNewGame(diff)
         setDifficulty(diff)
     }
 

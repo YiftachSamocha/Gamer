@@ -1,6 +1,6 @@
 import { store } from '../store'
 import { sudokuService } from '../../services/Sudoku/sudoku.service'
-import { CHANGE_DIFFICULTY, SET_CELL, SET_CELLS, UPDATE_CELL } from '../reducers/sudoku.reducer'
+import { SET_NEW_GAME, SET_CELL, SET_CELLS, UPDATE_CELL } from '../reducers/sudoku.reducer'
 
 export async function loadCells() {
     try {
@@ -21,10 +21,10 @@ export async function setCurrCell(loc) {
     }
 }
 
-export async function changeDifficulty(diff) {
+export async function setNewGame(diff) {
     try {
-        const newTable = await sudokuService.changeDiff(diff)
-        store.dispatch(getCmdChangeDiff(newTable))
+        const newTable = await sudokuService.createNewGame(diff)
+        store.dispatch(getCmdNewGame(newTable))
     } catch (err) {
         console.log('Cannot change difficulty', err)
         throw err
@@ -66,9 +66,9 @@ function getCmdUpdateCell(cells, currCell) {
     }
 }
 
-function getCmdChangeDiff(cells) {
+function getCmdNewGame(cells) {
     return {
-        type: CHANGE_DIFFICULTY,
+        type: SET_NEW_GAME,
         cells,
     }
 }

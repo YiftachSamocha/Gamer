@@ -6,10 +6,11 @@ export function SudokuTable() {
     const table = useSelector(state => state.sudokuModule.cells)
     const isNoteMode = useSelector(state => state.sudokuModule.isNoteMode)
     const [curr, setCurr] = useState({ row: null, col: null })
+    const hint = useSelector(state => state.sudokuModule.hint)
 
     useEffect(() => {
         loadCells()
-    }, [])
+    }, [hint])
 
     async function chooseCell(loc) {
         await setCurrCell(loc)
@@ -40,7 +41,8 @@ export function SudokuTable() {
     }
 
     function getClass(checked) {
-        if (curr.row === null || curr.col === null) return ''
+        if ((hint.row && hint.col) && checked.row === hint.row && checked.col === hint.col) return 'hint'
+            if (curr.row === null || curr.col === null) return ''
         if (curr.row === checked.row && curr.col === checked.col) return 'chosen'
         const checkedCell = { ...table[checked.row][checked.col] }
         const currCell = { ...table[curr.row][curr.col] }
