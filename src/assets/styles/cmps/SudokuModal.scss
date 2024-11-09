@@ -20,8 +20,10 @@
         h3,
         h2 {
             color: #344861;
+            cursor: default;
         }
-        h2{
+
+        h2 {
             font-size: 1.2em;
         }
 
@@ -116,7 +118,8 @@
 
         }
     }
-    .close-btn{
+
+    .close-btn {
         position: absolute;
         top: 15px;
         right: 15px;
@@ -126,8 +129,45 @@
         cursor: pointer;
         color: #99A4B0;
     }
-    .close-btn:hover{
+
+    .close-btn:hover {
         color: #344861;
+    }
+
+    .failure {
+        padding: 1em 1.5em;
+        h3{
+            font-size: 1em;
+        }
+
+        .btns {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
+
+
+            button {
+                padding: 0.5em;
+                font-size: 1em;
+                border: 0;
+                border-radius: 5px;
+                padding: 1em 2em;
+                width: 250px;
+                cursor: pointer;
+            }
+
+            button:first-of-type {
+                background-color: $main-blue;
+                color: white;
+                margin-block-end: 0.5em;
+            }
+
+            button:nth-of-type(2) {
+                background-color: white;
+                color: $main-blue
+            }
+        }
     }
 }
 

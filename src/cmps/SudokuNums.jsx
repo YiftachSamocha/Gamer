@@ -1,10 +1,13 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { updateCell } from "../store/actions/sudoku.actions"
+import { SET_MISTAKES_AMOUNT } from "../store/reducers/sudoku.reducer"
 
 export function SudokuNums() {
     const table = useSelector(state => state.sudokuModule.cells)
     const loc = useSelector(state => state.sudokuModule.currCell)
     const isNoteMode = useSelector(state => state.sudokuModule.isNoteMode)
+    const dispatch = useDispatch()
+    const mistakesAmount = useSelector(state => state.sudokuModule.mistakesAmount)
 
     async function setNum(num) {
         if (loc.row === null || loc.col === null) return
@@ -23,7 +26,11 @@ export function SudokuNums() {
         currCell.input = Number(num)
         currCell.notes = []
         await updateCell(currCell, loc)
-        await clearNotes(loc, num)
+        if (currCell.input !== currCell.num) {
+            dispatch({ type: SET_MISTAKES_AMOUNT, mistakesAmount: mistakesAmount + 1 })
+        } else {
+            await clearNotes(loc, num)
+        }
     }
 
     async function clearNotes(loc, num) {

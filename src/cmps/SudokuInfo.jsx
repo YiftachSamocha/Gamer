@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react"
+import { useSelector } from "react-redux"
 
 export function SudokuInfo() {
     const [seconds, setSeconds] = useState(0)
     const intervalRef = useRef(null)
+    const mistakesAmount = useSelector(state => state.sudokuModule.mistakesAmount)
 
     useEffect(() => {
         intervalRef.current = setInterval(() => {
@@ -43,8 +45,8 @@ export function SudokuInfo() {
     }
 
     return <section className="sudoku-info">
-        <p>Mistakes <span>{`0/3`}</span></p>
-        <p>Score: <span>0</span></p>
+        <p>Mistakes <span>{`${mistakesAmount}/3`}</span></p>
+        <p>Score: <span>{ }</span></p>
         <p>{formatTime()}</p>
         <button onClick={onToggleClock}>
             {intervalRef.current === null ? <i className="fa-solid fa-play"></i> : <i className="fa-solid fa-pause"></i>}

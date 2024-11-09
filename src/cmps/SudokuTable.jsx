@@ -1,12 +1,15 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { loadCells, setCurrCell, updateCell } from "../store/actions/sudoku.actions"
+import { SET_MISTAKES_AMOUNT } from "../store/reducers/sudoku.reducer"
 
 export function SudokuTable() {
     const table = useSelector(state => state.sudokuModule.cells)
     const isNoteMode = useSelector(state => state.sudokuModule.isNoteMode)
     const [curr, setCurr] = useState({ row: null, col: null })
     const hint = useSelector(state => state.sudokuModule.hint)
+    const mistakesAmount = useSelector(state => state.sudokuModule.mistakesAmount)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         loadCells()
@@ -27,7 +30,12 @@ export function SudokuTable() {
             newCell.input = enteredNum
             newCell.notes = []
             await updateCell(newCell, loc)
-            await clearNotes(loc, enteredNum)
+            if (newCell.input !== newCell.num) {
+                dispatch({ type: SET_MISTAKES_AMOUNT, mistakesAmount: mistakesAmount + 1 })
+            } else {
+                await clearNotes(loc, enteredNum)
+            }
+
         }
     }
 
@@ -42,7 +50,7 @@ export function SudokuTable() {
 
     function getClass(checked) {
         if ((hint.row && hint.col) && checked.row === hint.row && checked.col === hint.col) return 'hint'
-            if (curr.row === null || curr.col === null) return ''
+        if (curr.row === null || curr.col === null) return ''
         if (curr.row === checked.row && curr.col === checked.col) return 'chosen'
         const checkedCell = { ...table[checked.row][checked.col] }
         const currCell = { ...table[curr.row][curr.col] }
