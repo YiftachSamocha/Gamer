@@ -24,7 +24,7 @@ export async function setCurrCell(loc) {
 export async function setNewGame(diff) {
     try {
         const newTable = await sudokuService.createNewGame(diff)
-        store.dispatch(getCmdNewGame(newTable))
+        store.dispatch(getCmdNewGame(newTable, diff))
     } catch (err) {
         console.log('Cannot change difficulty', err)
         throw err
@@ -38,6 +38,16 @@ export async function updateCell(updatedCell, loc) {
         store.dispatch(getCmdUpdateCell(newTable, loc))
     } catch (err) {
         console.log('Cannot save cell', err)
+        throw err
+    }
+}
+
+export async function restartGame(table) {
+    try {
+        const cells = await sudokuService.restart(table)
+        store.dispatch(getCmdSetCells(cells))
+    } catch (err) {
+        console.log('Cannot load cells', err)
         throw err
     }
 }
@@ -66,10 +76,12 @@ function getCmdUpdateCell(cells, currCell) {
     }
 }
 
-function getCmdNewGame(cells) {
+function getCmdNewGame(cells, difficulty) {
     return {
         type: SET_NEW_GAME,
         cells,
+        difficulty
+
     }
 }
 

@@ -4,6 +4,7 @@ export const UPDATE_CELL = 'UPDATE_CELL'
 export const SET_NEW_GAME = 'SET_NEW_GAME'
 export const CHANGE_NOTE_MODE = 'CHANGE_NOTE_MODE'
 export const SET_HINT = 'SET_HINT'
+export const SET_DIFFICULTY = 'SET_DIFFICULTY'
 
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
     currSell: { row: null, col: null },
     isNoteMode: false,
     hint: { row: null, col: null },
+    difficulty: 'easy',
 }
 
 export function sudokuReducer(state = initialState, action) {
@@ -30,8 +32,7 @@ export function sudokuReducer(state = initialState, action) {
             break
 
         case SET_NEW_GAME:
-            cells = action.cells
-            newState = { ...state, cells }
+            newState = { ...state, cells: action.cells, difficulty: action.difficulty }
             break
 
         case CHANGE_NOTE_MODE:
@@ -41,6 +42,11 @@ export function sudokuReducer(state = initialState, action) {
         case SET_HINT:
             newState = { ...state, hint: action.hint }
             break
+
+        case SET_DIFFICULTY:
+            newState = { ...state, difficulty: action.difficulty }
+            break
+        
 
         default:
     }
