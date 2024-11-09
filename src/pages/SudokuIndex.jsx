@@ -21,9 +21,14 @@ export function SudokuIndex() {
     }, [mistakesAmount])
 
     useEffect(() => {
-        setModalType('diff-chosen')
-        setIsModalShown(true)
+        if (modalType !== '') {
+            setModalType('diff-chosen')
+            setIsModalShown(true)
+        }
+
     }, [difficulty])
+
+
 
     function startNewGame() {
         setModalType('new-game')

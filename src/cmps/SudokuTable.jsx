@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
-import { loadCells, setCurrCell, updateCell } from "../store/actions/sudoku.actions"
+import { loadCells, onClearNotes, setCurrCell, updateCell } from "../store/actions/sudoku.actions"
 import { SET_MISTAKES_AMOUNT } from "../store/reducers/sudoku.reducer"
 
 export function SudokuTable() {
@@ -33,7 +33,8 @@ export function SudokuTable() {
             if (newCell.input !== newCell.num) {
                 dispatch({ type: SET_MISTAKES_AMOUNT, mistakesAmount: mistakesAmount + 1 })
             } else {
-                await clearNotes(loc, enteredNum)
+                table[loc.row][loc.col].input = enteredNum
+                await onClearNotes(table, loc, enteredNum)
             }
 
         }
@@ -67,31 +68,6 @@ export function SudokuTable() {
         }
         if (checked.row >= startBox.row && checked.row < startBox.row + 3 && checked.col >= startBox.col && checked.col < startBox.col + 3) return 'mark'
         return ''
-    }
-
-    async function clearNotes(loc, num) {
-        if (table[loc.row][loc.col].num !== num) return
-        for (var i = 0; i < 9; i++) {
-            if (loc.col !== i && !table[loc.row][i].isGiven && table[loc.row][i].notes.includes(num)) {
-                const newNotes = table[loc.row][i].notes.filter(note => note !== num)
-                await updateCell({ ...table[loc.row][loc.col], notes: newNotes }, { row: loc.row, col: i })
-            }
-        }
-        for (var i = 0; i < 9; i++) {
-            if (loc.row !== i && !table[i][loc.col].isGiven && table[i][loc.col].notes.includes(num)) {
-                const newNotes = table[i][loc.col].notes.filter(note => note !== num)
-                await updateCell({ ...table[loc.row][loc.col], notes: newNotes }, { row: i, col: loc.col })
-            }
-        }
-        const startBox = { row: Math.floor(curr.row / 3) * 3, col: Math.floor(curr.col / 3) * 3 }
-        for (var i = startBox.row; i < startBox.row + 3; i++) {
-            for (var j = startBox.col; j < startBox.col + 3; j++) {
-                if (!(loc.row === i && loc.col === j) && !table[i][j].isGiven && table[i][j].notes.includes(num)) {
-                    const newNotes = table[i][j].notes.filter(note => note !== num)
-                    await updateCell({ ...table[i][j], notes: newNotes }, { row: i, col: j })
-                }
-            }
-        }
     }
 
     return (

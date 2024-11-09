@@ -52,6 +52,16 @@ export async function restartGame(table) {
     }
 }
 
+export async function onClearNotes(table, loc, num) {
+    try {
+        const cells = await sudokuService.clearNotes(table, loc, num)
+        store.dispatch(getCmdSetCells(cells))
+    } catch (err) {
+        console.log('Cannot load cells', err)
+        throw err
+    }
+}
+
 
 
 // Command Creators:
