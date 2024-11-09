@@ -21,9 +21,12 @@
                     height: 35px;
                     font-size: 1em;
                     text-align: center;
-                    color: $main-blue;
                     caret-color: transparent;
 
+                }
+
+                .num{
+                    color: $main-blue;
                 }
 
                 .wrong {
@@ -31,6 +34,9 @@
                 }
 
 
+            }
+            td:focus{
+                outline: 0;
             }
 
             .mark {
@@ -54,6 +60,19 @@
 
                 input {
                     background-color: #C3D7EA;
+                }
+            }
+            div{
+                height: 100%;
+            }
+            .note-container{
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                height: 100%;
+                span{
+                    font-size: 0.4em;
+                    color: #6E7C8C;
+                    height: 10px;
                 }
             }
         }

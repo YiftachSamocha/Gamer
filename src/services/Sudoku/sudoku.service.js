@@ -31,6 +31,7 @@ function changeDiff(diff) {
     return newTable
 }
 
+
 function createSudoku(level) {
     const table = createSolvedSudoku()
     const totalEmptyCells = Number(getEmptyTotal(level))
