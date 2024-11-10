@@ -11,6 +11,7 @@ export function SudokuNums() {
 
     async function setNum(num) {
         if (loc.row === null || loc.col === null) return
+        if (table[loc.row][loc.col].isGiven) return
         const currCell = { ...table[loc.row][loc.col] }
         if (isNoteMode) {
             if (currCell.notes.includes(num)) {

@@ -42,10 +42,10 @@ export async function updateCell(updatedCell, loc) {
     }
 }
 
-export async function restartGame(table) {
+export async function restartGame(table, diff) {
     try {
         const cells = await sudokuService.restart(table)
-        store.dispatch(getCmdSetCells(cells))
+        store.dispatch(getCmdNewGame(cells, diff))
     } catch (err) {
         console.log('Cannot load cells', err)
         throw err

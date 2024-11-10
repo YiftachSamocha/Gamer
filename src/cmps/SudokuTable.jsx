@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { loadCells, onClearNotes, setCurrCell, updateCell } from "../store/actions/sudoku.actions"
 import { SET_IS_VICTORY, SET_MISTAKES_AMOUNT } from "../store/reducers/sudoku.reducer"
 import { sudokuService } from "../services/Sudoku/sudoku.service"
@@ -7,7 +7,7 @@ import { sudokuService } from "../services/Sudoku/sudoku.service"
 export function SudokuTable() {
     const table = useSelector(state => state.sudokuModule.cells)
     const isNoteMode = useSelector(state => state.sudokuModule.isNoteMode)
-    const [curr, setCurr] = useState({ row: null, col: null })
+    const curr = useSelector(state => state.sudokuModule.currCell)
     const hint = useSelector(state => state.sudokuModule.hint)
     const mistakesAmount = useSelector(state => state.sudokuModule.mistakesAmount)
     const dispatch = useDispatch()
@@ -18,12 +18,12 @@ export function SudokuTable() {
 
     async function chooseCell(loc) {
         await setCurrCell(loc)
-        setCurr(loc)
     }
 
     async function handleKeyInput(e, loc) {
         let enteredNum = parseInt(e.key, 10)
         if (isNaN(enteredNum) || enteredNum < 1 || enteredNum > 9) return
+        if (table[loc.row][loc.col].isGiven) return
         const newCell = { ...table[loc.row][loc.col] }
         if (isNoteMode) {
             await enterNumNote(newCell, enteredNum, loc)

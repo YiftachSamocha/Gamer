@@ -9,7 +9,7 @@ import { SudokuVictory } from "../cmps/SudokuVictory";
 
 export function SudokuIndex() {
     const [isModalShown, setIsModalShown] = useState(false)
-    const [modalType, setModalType] = useState('')
+    const [modalType, setModalType] = useState('new-game')
     const difficulty = useSelector(state => state.sudokuModule.difficulty)
     const mistakesAmount = useSelector(state => state.sudokuModule.mistakesAmount)
     const isVictory = useSelector(state => state.sudokuModule.isVictory)
@@ -19,20 +19,21 @@ export function SudokuIndex() {
             setModalType('failure')
             setIsModalShown(true)
         }
-
     }, [mistakesAmount])
 
     useEffect(() => {
-        if (modalType !== '') {
-            setModalType('diff-chosen')
-            setIsModalShown(true)
-        }
-
+        setModalType('diff-chosen')
+        setIsModalShown(true)
     }, [difficulty])
+
+    useEffect(() => {
+        setIsModalShown(false)
+    }, [])
 
     function startNewGame() {
         setModalType('new-game')
         setIsModalShown(true)
+
     }
 
     function outsideClick() {
@@ -41,22 +42,23 @@ export function SudokuIndex() {
     }
 
     return <section className="sudoku-index">
-        {isVictory ? <SudokuVictory time={'13:45'} score={500} difficulty={'hard'}/> : <div>
-            <div> <h1>Sudoku</h1></div>
-            <SudokuHeader />
-            <main>
-                <SudokuTable />
-                <div>
-                    <SudokuActions />
-                    <SudokuNums />
-                    <button className="new-game-btn" onClick={startNewGame}>New Game</button>
-                </div>
-            </main>
+        {isVictory ? <SudokuVictory time={'13:45'} score={500} difficulty={'hard'} startGame={startNewGame} />
+            : <div>
+                <header><h1>Sudoku</h1></header>
+                <SudokuHeader />
+                <main>
+                    <SudokuTable />
+                    <div>
+                        <SudokuActions />
+                        <SudokuNums />
+                        <button className="new-game-btn" onClick={startNewGame}>New Game</button>
+                    </div>
+                </main>
 
-            {isModalShown && <div>
-                <div className="overlay" onClick={outsideClick}></div>
-                <SudokuModal close={() => setIsModalShown(false)} givenType={modalType} />
             </div>}
+        {isModalShown && <div>
+            <div className="overlay" onClick={outsideClick}></div>
+            <SudokuModal close={() => setIsModalShown(false)} givenType={modalType} />
         </div>}
     </section>
 

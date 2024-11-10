@@ -11,12 +11,12 @@ export const SET_IS_VICTORY = 'SET_IS_VICTORY'
 
 const initialState = {
     cells: [],
-    currSell: { row: null, col: null },
+    currCell: { row: null, col: null },
     isNoteMode: false,
     hint: { row: null, col: null },
     difficulty: 'easy',
     mistakesAmount: 0,
-    isVictory: true,
+    isVictory: false,
 }
 
 export function sudokuReducer(state = initialState, action) {
@@ -36,7 +36,16 @@ export function sudokuReducer(state = initialState, action) {
             break
 
         case SET_NEW_GAME:
-            newState = { ...state, cells: action.cells, difficulty: action.difficulty }
+            newState = {
+                ...state,
+                cells: action.cells,
+                difficulty: action.difficulty,
+                currCell: { row: null, col: null },
+                isNoteMode: false,
+                hint: { row: null, col: null },
+                mistakesAmount: 0,
+                isVictory: false,
+            }
             break
 
         case CHANGE_NOTE_MODE:

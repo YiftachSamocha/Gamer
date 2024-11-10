@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { restartGame, setNewGame } from "../store/actions/sudoku.actions"
 import boardImg from "../assets/imgs/board.jpeg"
-import { SET_MISTAKES_AMOUNT } from "../store/reducers/sudoku.reducer"
+import { SET_IS_VICTORY, SET_MISTAKES_AMOUNT } from "../store/reducers/sudoku.reducer"
 import { useState } from "react"
 
 export function SudokuModal({ close, givenType }) {
@@ -9,6 +9,7 @@ export function SudokuModal({ close, givenType }) {
     const difficulty = useSelector(state => state.sudokuModule.difficulty)
     const table = useSelector(table => table.sudokuModule.cells)
     const dispatch = useDispatch()
+    const isVictory= useSelector(table => table.sudokuModule.isVictory)
 
     async function restartGameChosenType() {
         await setNewGame(difficulty)
@@ -18,11 +19,13 @@ export function SudokuModal({ close, givenType }) {
     async function startGame(diff) {
         await setNewGame(diff)
         close()
+        if (isVictory) dispatch({ type: SET_IS_VICTORY, isVictory: false })
     }
 
     async function onRestartGame() {
-        await restartGame(table)
+        await restartGame(table, difficulty)
         close()
+        if (isVictory) dispatch({ type: SET_IS_VICTORY, isVictory: false })
     }
 
     function giveSecondChance() {

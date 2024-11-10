@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { setNewGame } from "../store/actions/sudoku.actions"
 import { useDispatch, useSelector } from "react-redux"
 import { SET_DIFFICULTY } from "../store/reducers/sudoku.reducer"
 

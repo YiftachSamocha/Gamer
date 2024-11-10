@@ -2,7 +2,7 @@ import timeImg from '../assets/imgs/time.png';
 import difficultyImg from '../assets/imgs/difficulty.png';
 import scoreImg from '../assets/imgs/score.png';
 
-export function SudokuVictory({ score, difficulty, time }) {
+export function SudokuVictory({ score, difficulty, time, startGame }) {
     return <section className='sudoku-victory'>
         <h1>Excellent!</h1>
         <div >
@@ -32,7 +32,7 @@ export function SudokuVictory({ score, difficulty, time }) {
 
                 </div>
             </div>
-            <button>New Game</button>
+            <button onClick={startGame}>New Game</button>
         </div>
     </section>
 }
