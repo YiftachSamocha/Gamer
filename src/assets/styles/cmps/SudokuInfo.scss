@@ -1,26 +1,41 @@
 .sudoku-info {
     display: flex;
     justify-content: space-between;
-align-items: center;
+    align-items: center;
+    width: 380px;
+    >*{
+        display: flex;
+        justify-content: space-between;
+    }
+
     p {
         color: $light-gray;
         font-weight: 600;
         margin: 0;
         font-size: 1.5em;
         margin-inline: 0.4em;
+       
 
-        span{
+        span {
             color: $dark-gray;
+            margin-inline: 0.5em;
         }
     }
-    button{
+    p:last-of-type{
+        width: 80px;
+    }
+
+    button {
         background-color: #EAEEF4;
         border-radius: 50px;
         border: 0;
-        padding: 0.6em 0.7em;
+        padding: 0.6em 0.9em;
         cursor: pointer;
+        width: 35px;
+        height: 35px;
     }
-    button:hover{
+
+    button:hover {
         background-color: #DCE3ED;
     }
 

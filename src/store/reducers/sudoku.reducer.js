@@ -8,6 +8,7 @@ export const SET_DIFFICULTY = 'SET_DIFFICULTY'
 export const SET_MISTAKES_AMOUNT = 'SET_MISTAKES_AMOUNT'
 export const SET_IS_VICTORY = 'SET_IS_VICTORY'
 export const UNDO = 'UNDO'
+export const SET_TIME= 'SET_TIME'
 
 
 const initialState = {
@@ -17,8 +18,9 @@ const initialState = {
     hint: { row: null, col: null },
     difficulty: 'easy',
     mistakesAmount: 0,
-    isVictory: false,
+    isVictory: true,
     history: [],
+    time: '',
 }
 
 export function sudokuReducer(state = initialState, action) {
@@ -81,6 +83,10 @@ export function sudokuReducer(state = initialState, action) {
                 curr = { row: newCurr.row, col: newCurr.col }
             }
             newState = { ...state, cells: action.cells, currCell: curr, history: updatedHistory }
+            break
+
+        case SET_TIME:
+            newState = { ...state, time: action.time }
             break
 
         default:

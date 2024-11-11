@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { loadCells, onClearNotes, setCurrCell, updateCell } from "../store/actions/sudoku.actions"
-import { SET_IS_VICTORY, SET_MISTAKES_AMOUNT } from "../store/reducers/sudoku.reducer"
+import { SET_IS_VICTORY, SET_MISTAKES_AMOUNT, SET_TIME } from "../store/reducers/sudoku.reducer"
 import { sudokuService } from "../services/Sudoku/sudoku.service"
 
 export function SudokuTable() {
@@ -9,12 +9,25 @@ export function SudokuTable() {
     const isNoteMode = useSelector(state => state.sudokuModule.isNoteMode)
     const curr = useSelector(state => state.sudokuModule.currCell)
     const hint = useSelector(state => state.sudokuModule.hint)
+    const [isPaused, setIsPaused] = useState(false)
     const mistakesAmount = useSelector(state => state.sudokuModule.mistakesAmount)
+    const time = useSelector(state => state.sudokuModule.time)
     const dispatch = useDispatch()
 
     useEffect(() => {
         loadCells()
     }, [hint])
+
+    useEffect(() => {
+        if (time === 'pause') {
+            setIsPaused(true)
+        }
+        else {
+            setIsPaused(false)
+        }
+
+
+    }, [time])
 
     async function chooseCell(loc) {
         await setCurrCell(loc)
@@ -81,44 +94,50 @@ export function SudokuTable() {
         return ''
     }
 
+    function resumeGame() {
+        dispatch({ type: SET_TIME, time: 'resume' })
+    }
+
     return (
         <section className="sudoku-table">
             <table>
-                <tbody>
-                    {table.map((rowSec, row) => (
-                        <tr key={row}>
-                            {rowSec.map((cell, col) => (
-                                <td
-                                    key={col}
-                                    onClick={() => chooseCell({ row, col })}
-                                    onKeyDown={(e) => curr.row === row && curr.col === col && handleKeyInput(e, { row, col })}
-                                    className={getClass({ row, col })}
-                                    tabIndex={0}
-                                >
-                                    {cell.isGiven ? (
-                                        <span className="given">{cell.num}</span>
-                                    ) : (
-                                        <div>
-                                            {cell.notes.length > 0 ? (
-                                                <div className="note-container">
-                                                    {[...Array(9)].map((_, i) => (
-                                                        <span key={i}>{cell.notes.includes(i + 1) ? i + 1 : ''}</span>
-                                                    ))}
-                                                </div>
-                                            ) : (
-                                                <span
-                                                    className={`num ${cell.input !== '' && Number(cell.input) === Number(cell.num) ? '' : 'wrong'}`}
-                                                >
-                                                    {cell.input}
-                                                </span>
-                                            )}
-                                        </div>
-                                    )}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
+                {isPaused ?
+                    <button className="resume-btn" onClick={resumeGame}><i className="fa-solid fa-play"></i></button>
+                    : <tbody>
+                        {table.map((rowSec, row) => (
+                            <tr key={row}>
+                                {rowSec.map((cell, col) => (
+                                    <td
+                                        key={col}
+                                        onClick={() => chooseCell({ row, col })}
+                                        onKeyDown={(e) => curr.row === row && curr.col === col && handleKeyInput(e, { row, col })}
+                                        className={getClass({ row, col })}
+                                        tabIndex={0}
+                                    >
+                                        {cell.isGiven ? (
+                                            <span className="given">{cell.num}</span>
+                                        ) : (
+                                            <div>
+                                                {cell.notes.length > 0 ? (
+                                                    <div className="note-container">
+                                                        {[...Array(9)].map((_, i) => (
+                                                            <span key={i}>{cell.notes.includes(i + 1) ? i + 1 : ''}</span>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <span
+                                                        className={`num ${cell.input !== '' && Number(cell.input) === Number(cell.num) ? '' : 'wrong'}`}
+                                                    >
+                                                        {cell.input}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        )}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>}
             </table>
         </section>
     )
