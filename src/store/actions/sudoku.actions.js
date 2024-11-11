@@ -1,6 +1,6 @@
 import { store } from '../store'
 import { sudokuService } from '../../services/Sudoku/sudoku.service'
-import { SET_NEW_GAME, SET_CELL, SET_CELLS, UPDATE_CELL } from '../reducers/sudoku.reducer'
+import { SET_NEW_GAME, SET_CELL, SET_CELLS, UPDATE_CELL, UNDO } from '../reducers/sudoku.reducer'
 
 export async function loadCells() {
     try {
@@ -32,10 +32,10 @@ export async function setNewGame(diff) {
 
 }
 
-export async function updateCell(updatedCell, loc) {
+export async function updateCell(updatedCell, loc, prev) {
     try {
         const newTable = await sudokuService.update(updatedCell, loc)
-        store.dispatch(getCmdUpdateCell(newTable, loc))
+        store.dispatch(getCmdUpdateCell(newTable, loc, prev))
     } catch (err) {
         console.log('Cannot save cell', err)
         throw err
@@ -62,6 +62,16 @@ export async function onClearNotes(table, loc, num) {
     }
 }
 
+export async function undo(lastCell, lastCellLoc){
+    try {
+        const newTable = await sudokuService.update(lastCell, lastCellLoc)
+        store.dispatch(getCmdUndo(newTable))
+    } catch (err) {
+        console.log('Cannot undo', err)
+        throw err
+    }
+}
+
 
 
 // Command Creators:
@@ -78,11 +88,12 @@ function getCmdSetCell(currCell) {
     }
 }
 
-function getCmdUpdateCell(cells, currCell) {
+function getCmdUpdateCell(cells, currCell, prev) {
     return {
         type: UPDATE_CELL,
         cells,
-        currCell
+        currCell,
+        prev
     }
 }
 
@@ -92,6 +103,13 @@ function getCmdNewGame(cells, difficulty) {
         cells,
         difficulty
 
+    }
+}
+
+function getCmdUndo(cells) {
+    return {
+        type: UNDO,
+        cells
     }
 }
 

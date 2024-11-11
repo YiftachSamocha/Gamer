@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { updateCell } from "../store/actions/sudoku.actions"
+import { undo, updateCell } from "../store/actions/sudoku.actions"
 import { useState } from "react"
 import { CHANGE_NOTE_MODE, SET_HINT } from "../store/reducers/sudoku.reducer"
 import { getRandomIntInclusive } from "../services/util.service"
@@ -10,6 +10,7 @@ export function SudokuActions() {
     const isNoteMode = useSelector(state => state.sudokuModule.isNoteMode)
     const [hintsNum, setHintsNum] = useState(3)
     const dispatch = useDispatch()
+    const history = useSelector(state => state.sudokuModule.history)
 
     function setNoteMode() {
         dispatch({ type: CHANGE_NOTE_MODE, isNoteMode: !isNoteMode })
@@ -17,8 +18,12 @@ export function SudokuActions() {
 
     async function erase() {
         const deletedCell = { ...table[currCell.row][currCell.col] }
+        const prev = { ...table[currCell.row][currCell.col] }
+        prev.row = currCell.row
+        prev.col = currCell.col
         deletedCell.input = ''
-        await updateCell(deletedCell, currCell)
+        deletedCell.notes = []
+        await updateCell(deletedCell, currCell, prev)
     }
 
     async function setHint() {
@@ -31,7 +36,7 @@ export function SudokuActions() {
                 const cellToUpdate = { ...table[row][col], isGiven: true }
                 delete cellToUpdate.notes
                 delete cellToUpdate.input
-                await updateCell(cellToUpdate, { row, col })
+                await updateCell(cellToUpdate, { row, col }, 'hint')
                 dispatch({ type: SET_HINT, hint: { row, col } })
                 setTimeout(() => {
                     dispatch({ type: SET_HINT, hint: { row: null, col: null } })
@@ -42,8 +47,15 @@ export function SudokuActions() {
         }
     }
 
+    async function onUndo() {
+        if (history.length <= 0) return
+        const lastCell = history[history.length - 1]
+        const lastCellLoc = { row: lastCell.row, col: lastCell.col }
+        await undo(lastCell, lastCellLoc)
+    }
+
     return <section className="sudoku-actions">
-        <div>
+        <div onClick={onUndo}>
             <button><i className="fa-solid fa-rotate-left"></i></button>
             <p>Undo</p>
         </div>

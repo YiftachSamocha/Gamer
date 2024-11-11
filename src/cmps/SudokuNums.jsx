@@ -13,20 +13,26 @@ export function SudokuNums() {
         if (loc.row === null || loc.col === null) return
         if (table[loc.row][loc.col].isGiven) return
         const currCell = { ...table[loc.row][loc.col] }
+        let prev = { ...table[loc.row][loc.col] }
+        prev.row = loc.row
+        prev.col = loc.col
         if (isNoteMode) {
+            prev = JSON.parse(JSON.stringify(currCell))
+            prev.row = loc.row
+            prev.col = loc.col
             if (currCell.notes.includes(num)) {
                 currCell.notes = currCell.notes.filter(note => note !== num)
             } else {
                 currCell.notes.push(num)
             }
             currCell.input = ''
-            await updateCell(currCell, loc)
+            await updateCell(currCell, loc, prev)
             return
         }
 
         currCell.input = Number(num)
         currCell.notes = []
-        await updateCell(currCell, loc)
+        await updateCell(currCell, loc, prev)
         if (currCell.input !== currCell.num) {
             dispatch({ type: SET_MISTAKES_AMOUNT, mistakesAmount: mistakesAmount + 1 })
         } else {

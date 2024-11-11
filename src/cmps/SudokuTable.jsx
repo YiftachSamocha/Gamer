@@ -25,12 +25,15 @@ export function SudokuTable() {
         if (isNaN(enteredNum) || enteredNum < 1 || enteredNum > 9) return
         if (table[loc.row][loc.col].isGiven) return
         const newCell = { ...table[loc.row][loc.col] }
+        const prev = { ...table[loc.row][loc.col] }
+        prev.row = loc.row
+        prev.col = loc.col
         if (isNoteMode) {
             await enterNumNote(newCell, enteredNum, loc)
         } else {
             newCell.input = enteredNum
             newCell.notes = []
-            await updateCell(newCell, loc)
+            await updateCell(newCell, loc, prev)
             if (newCell.input !== newCell.num) {
                 dispatch({ type: SET_MISTAKES_AMOUNT, mistakesAmount: mistakesAmount + 1 })
             } else {
@@ -46,12 +49,15 @@ export function SudokuTable() {
     }
 
     async function enterNumNote(cellToUpdate, input, loc) {
+        const prevCopy = JSON.parse(JSON.stringify(cellToUpdate))
+        prevCopy.row = loc.row
+        prevCopy.col = loc.col
         if (cellToUpdate.notes.includes(input)) {
             cellToUpdate.notes = cellToUpdate.notes.filter(note => note !== input)
         } else {
             cellToUpdate.notes.push(input)
         }
-        await updateCell(cellToUpdate, loc)
+        await updateCell(cellToUpdate, loc, prevCopy)
     }
 
     function getClass(checked) {
