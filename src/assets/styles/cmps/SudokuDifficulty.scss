@@ -2,16 +2,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 
-    button, h3{
+    button, h3, p{
         background-color: white;
         color: $dark-gray;
         border: 0;
         font-weight: 600;
         margin: 0;
-        font-size: 1.5em;
-        padding: 0;
-        margin-inline: 0.4em;
+        font-size: 1.1em;
+        margin-inline: 0.1em;
         padding: 0.3em;
         border-radius: 10px;
     }
@@ -24,8 +24,16 @@
         color: $light-gray;
         margin-right: 0.5em;
         margin-bottom: 0.2em;
-    
+        position: relative;
+        padding: 0;
+        cursor: default;
     }
+
+    button{
+        cursor: pointer;
+        padding-block: 0.4em;
+    }
+    
     .chosen{
         color: $main-blue;
     }

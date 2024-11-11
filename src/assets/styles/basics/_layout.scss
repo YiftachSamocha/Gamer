@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 1rem 1fr 1rem;
 
-    > * {
+    >* {
         grid-column: 2;
 
         &.full {
@@ -10,28 +10,150 @@
         }
     }
 
-    // @include for-narrow-layout {
-    //     grid-template-columns: 
-    //         minmax(20px, 1fr)
-    //         minmax(auto, $mobile-breakpoint)
-    //         minmax(20px, 1fr);
-    // }
-    // @include for-normal-layout {
-    //     grid-template-columns: 
-    //         minmax(20px, 1fr)
-    //         minmax(auto, $narrow-breakpoint)
-    //         minmax(20px, 1fr);
-    // }
-    // @include for-wide-layout {
-    //     grid-template-columns: 
-    //         minmax(20px, 1fr)
-    //         minmax(auto, $normal-breakpoint)
-    //         minmax(20px, 1fr);
-    // }
-}
+    @include for-normal-layout {
+        .sudoku-table table {
+            min-height: 420px;
+        }
 
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-gap: 20px;
+        .sudoku-index {
+            grid-template-columns: 1fr minmax(400px, auto) 1fr;
+
+            main {
+                flex-direction: column;
+
+                >div {
+                    width: 400px;
+                    max-width: 400px;
+                  
+                   
+                }
+            }
+        }
+
+        .sudoku-header {
+            margin-top: 10px;
+        }
+
+        h1 {
+            display: none;
+        }
+
+        .sudoku-info {
+            min-width: 250px;
+        }
+
+
+        .sudoku-victory {
+            flex-direction: column;
+
+            h1 {
+                display: block;
+                font-size: 4em;
+            }
+
+            >div {
+                padding-inline: 0.8em;
+                
+
+                .content {
+                    
+                    width: 350px;
+                    p{
+                        font-size: 1em;
+                    }
+
+                    
+                }
+            }
+        }
+
+        
+
+        .sudoku-nums {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+
+            button {
+                padding: 0;
+                background-color: inherit;
+                color: $main-blue;
+            }
+
+            button:hover {
+                background-color: inherit;
+            }
+        }
+
+        .sudoku-diff {
+            h3 {
+                cursor: pointer;
+                margin-bottom: 0;
+            }
+
+            p {
+                text-transform: capitalize;
+            }
+
+            p,
+            h3 {
+                font-size: 1.1em;
+            }
+
+
+            >div {
+                z-index: 10;
+                position: absolute;
+                top: 50px;
+                left: 0;
+                border: 1px solid $main-blue;
+                border-radius: 10px;
+                background-color: white;
+                flex-direction: column;
+                width: 120px;
+                align-items: center;
+                padding: 0;
+
+                button {
+                    width: 100%;
+                    border-radius: 10px;
+                    border: 0;
+                    margin-inline: 0;
+                }
+            }
+        }
+
+        .sudoku-info {
+            font-size: 0.7em;
+
+
+
+        }
+
+        .sudoku-actions {
+            p {
+                display: none;
+            }
+
+            button {
+                background-color: inherit;
+            }
+
+            i {
+                font-size: 2.5em;
+                color: #9DA2AD;
+
+            }
+
+            div:has(.note-mode.on) button:first-of-type {
+                border: 0;
+            }
+        }
+
+
+
+    }
+
+
 }

@@ -7,15 +7,12 @@ import { SudokuTable } from "../cmps/SudokuTable";
 import { useSelector } from "react-redux";
 import { SudokuVictory } from "../cmps/SudokuVictory";
 
-
 export function SudokuIndex() {
     const [isModalShown, setIsModalShown] = useState(false)
     const [modalType, setModalType] = useState('new-game')
     const difficulty = useSelector(state => state.sudokuModule.difficulty)
     const mistakesAmount = useSelector(state => state.sudokuModule.mistakesAmount)
     const isVictory = useSelector(state => state.sudokuModule.isVictory)
-
-
 
     useEffect(() => {
         if (mistakesAmount > 2) {
@@ -36,7 +33,6 @@ export function SudokuIndex() {
     function startNewGame() {
         setModalType('new-game')
         setIsModalShown(true)
-
     }
 
     function outsideClick() {

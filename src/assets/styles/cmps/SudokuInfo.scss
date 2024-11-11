@@ -2,10 +2,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 380px;
+    min-width: 320px;
     >*{
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
 
     p {
@@ -22,7 +23,7 @@
         }
     }
     p:last-of-type{
-        width: 80px;
+        width: 60px;
     }
 
     button {
