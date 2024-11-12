@@ -18,7 +18,7 @@ const initialState = {
     hint: { row: null, col: null },
     difficulty: 'easy',
     mistakesAmount: 0,
-    isVictory: true,
+    isVictory: false,
     history: [],
     time: '',
 }
