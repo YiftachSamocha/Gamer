@@ -1,11 +1,5 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-
-// https://vitejs.dev/config/
-export default defineConfig({
-	plugins: [react()],
+export default {
 	build: {
-		outDir: '../backend/public',
-		emptyOutDir: true,
-	},
-})
+	  outDir: 'dist', // Ensure the build output is in the dist folder
+	}
+  }
