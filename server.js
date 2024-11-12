@@ -1,6 +1,7 @@
 // server.js
 
 import express from 'express';
+import path from 'path'
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,9 +10,9 @@ const port = process.env.PORT || 3000;
 app.use(express.static('dist'));
 
 // Simple route
-app.get('/', (req, res) => {
-    res.send('Hello from Express!');
-});
+app.get('/**', (req, res) => {
+    res.sendFile(path.resolve('dist/index.html'))
+})
 
 // Start the server
 app.listen(port, () => {
